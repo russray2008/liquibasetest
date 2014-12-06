@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+                      http://www.liquibase.org/xml/ns/dbchangelog-ext 
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  
+
+
+     
+   <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql">
+        <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="CONTINUE"> 
+          <sequenceExists schemaName="public" sequenceName="contactid_seq" />
+        </preConditions>
+        <comment>Dropping Sequence</comment>
+        <dropSequence   schemaName="public" sequenceName="contactid_seq" />
+   </changeSet>     
+
+   
+   
+   <changeSet id="2-Create Sequence" author="liquibase" runAlways="true">
+       <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="MARK_RAN"> 
+          <not><sequenceExists schemaName="public" sequenceName="contactid_seq" /></not>
+        </preConditions>
+       <comment>Creating Sequence...</comment>
+       <createSequence sequenceName="contactid_seq"
+                        incrementBy="1"
+                        minValue="1"
+                        maxValue="9223372036854775807"
+                        startValue="1"
+                        ordered="1"
+                        schemaName="public"/>
+   </changeSet>
+   
+   
+   <changeSet id="3-Drop Table" author="liquibase" dbms="postgresql" >
+       <preConditions onErrorMessage="Failed Pre Conditions for table" onFail="MARK_RAN"> 
+           <tableExists schemaName="public" tableName="contact"/>
+       </preConditions>
+       <comment>Dropping Table</comment>
+       <dropTable tableName="contact"/>
+   </changeSet>
+   
+   <changeSet id="4 Create Table" author="liquibase" runAlways="true">
+       <preConditions onErrorMessage="Failed Pre Conditions for table" onFail="MARK_RAN"> 
+           <not><tableExists schemaName="public" tableName="contact"/> </not>
+       </preConditions>
+       <comment>Creating Table named: Contact...</comment>
+       <createTable tableName="contact" schemaName="public">
+          <column name="contact_id" type="int" >
+          <constraints primaryKey="true" nullable="false"/>
+          </column>
+          <column name="contact_name" type="varchar(45)">
+             <constraints nullable="false"/>
+          </column>
+          <column name="email" type="varchar(45)">
+             <constraints nullable="false"/>
+          </column>
+          <column name="address" type="varchar(45)">
+             <constraints nullable="false"/>
+          </column>
+          <column name="telephone" type="varchar(45)">
+             <constraints nullable="false"/>
+          </column>
+       </createTable>
+   </changeSet>
+   
+   
+   <changeSet id="5-Add Constraint" author="liquibase">
+         <comment>Adding contactid_seq sequence to Contact table...</comment> 
+         <addDefaultValue catalogName="pg_catalog"
+            columnDataType="int"
+            columnName="contact_id"
+            tableName="contact"
+            schemaName="public"
+            defaultValueSequenceNext="contactid_seq" />
+   </changeSet>
+ 
+</databaseChangeLog>
