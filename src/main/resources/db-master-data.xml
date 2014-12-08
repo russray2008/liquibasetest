@@ -27,12 +27,12 @@
             quotchar="A String"
             schemaName="public"
             separator=","
-            tableName="contact">
-          <column name="contact_id" type="int" />
-          <column name="contact_name" type="varchar(45)"/>
-          <column name="email" type="varchar(45)" />
-          <column name="address" type="varchar(45)" />
-          <column name="telephone" type="varchar(45)" />
+            tableName="contact" >
+          <column name="contact_id" type="numeric" />
+          <column name="contact_name" type="string" />
+          <column name="email" type="string" />
+          <column name="address" type="string" />
+          <column name="telephone" type="string" />
        </loadUpdateData>
 </changeSet>
 
