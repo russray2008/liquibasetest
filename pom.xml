@@ -1,22 +1,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>home</groupId>
-  <artifactId>liquibasetest</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>home</groupId>
+	<artifactId>liquibasetest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>liquibasetest</name>
-  <url>http://maven.apache.org</url>
+	<name>liquibasetest</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+	</properties>
+   <dependencyManagement>
+     <dependencies>
+         
+     </dependencies>
+   
+   </dependencyManagement>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m4.3</version>
+				<configuration>
+					<flowInitContext>
+						<masterBranchName>liquibase-rray</masterBranchName>
+						<developBranchName>development</developBranchName>
+						<featureBranchPrefix>feature-</featureBranchPrefix>
+						<releaseBranchPrefix>release-</releaseBranchPrefix>
+						<hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+						<versionTagPrefix>liquibase-</versionTagPrefix>
+					</flowInitContext>
+					<noDeploy>true</noDeploy>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
@@ -36,14 +58,28 @@
 					</dependency>
 				</dependencies>
 				<executions>
-				    <execution>
-				        <phase>process-resources</phase>
-				        <goals>
-				            <goal>update</goal>
-				        </goals>
-				    </execution>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<scm>
+		<developerConnection>russray2008</developerConnection>
+		<connection>scm:git:git@github.com:rray2008/liquibasetest.git</connection>
+		<url>scm:git:git@github.com:/russray2008/liquibasetest.git</url>
+	</scm>
 </project>

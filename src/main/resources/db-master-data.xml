@@ -12,7 +12,25 @@
  <include file="src/main/resources/db-master.xml"/>
  
  
-<changeSet id="6-loadData" author="liquibase" dbms="postgresql" >
+<changeSet id="6-Revoking User Privileges" author="liquibase" dbms="postgresql"  runAlways="true">
+<preConditions onErrorMessage="User 'liquibase' privileges not correct." onFail="CONTINUE">
+      <sqlCheck expectedResult ="7">SELECT COUNT(*) FROM information_schema.role_table_grants WHERE grantee='liquibase' AND table_name='contact' </sqlCheck>
+ </preConditions>
+      <comment>Revoking privileges</comment>
+      <sql>REVOKE ALL ON contact FROM liquibase</sql>
+</changeSet>
+
+<changeSet id="7-Granting User Privileges" author="liquibase" dbms="postgresql"  runAlways="true">
+<preConditions onErrorMessage="User 'liquibase' privileges not correct." onFail="CONTINUE">
+      <not>
+         <sqlCheck expectedResult ="7">SELECT COUNT(*) FROM information_schema.role_table_grants WHERE grantee='liquibase' AND table_name='contact' </sqlCheck>
+      </not>
+ </preConditions>
+      <comment>Granting privileges</comment>
+      <sql>GRANT ALL ON contact TO liquibase</sql>
+</changeSet>
+ 
+<changeSet id="8-loadData" author="liquibase" dbms="postgresql"  runAlways="true">
     <preConditions onErrorMessage="Failed Pre Conditions for table" onFail="HALT"> 
           <and>
           <tableExists schemaName="public" tableName="contact" />

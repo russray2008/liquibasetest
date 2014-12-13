@@ -12,19 +12,21 @@
 
 
      
-   <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql">
+   <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql" runAlways="true">
         <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="CONTINUE"> 
           <sequenceExists schemaName="public" sequenceName="contactid_seq" />
         </preConditions>
         <comment>Dropping Sequence</comment>
-        <dropSequence   schemaName="public" sequenceName="contactid_seq" />
+        <dropSequence schemaName="public" sequenceName="contactid_seq" />
    </changeSet>     
 
    
    
    <changeSet id="2-Create Sequence" author="liquibase" runAlways="true">
        <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="MARK_RAN"> 
-          <not><sequenceExists schemaName="public" sequenceName="contactid_seq" /></not>
+          <not>
+            <sequenceExists schemaName="public" sequenceName="contactid_seq" />
+          </not>
         </preConditions>
        <comment>Creating Sequence...</comment>
        <createSequence sequenceName="contactid_seq"
@@ -70,7 +72,7 @@
    </changeSet>
    
    
-   <changeSet id="5-Add Constraint" author="liquibase">
+   <changeSet id="5-Add Constraint" author="liquibase"  runAlways="true">
          <comment>Adding contactid_seq sequence to Contact table...</comment> 
          <addDefaultValue catalogName="pg_catalog"
             columnDataType="int"
@@ -79,5 +81,7 @@
             schemaName="public"
             defaultValueSequenceNext="contactid_seq" />
    </changeSet>
+   
+
  
 </databaseChangeLog>
