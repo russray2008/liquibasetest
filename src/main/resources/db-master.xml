@@ -7,38 +7,26 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                       http://www.liquibase.org/xml/ns/dbchangelog-ext 
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-
-  
-
-
-     
-<<<<<<< HEAD
+ 
+ 
+ 
+ 
+ 
    <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql" runAlways="true">
-=======
-   <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql">
->>>>>>> master
         <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="CONTINUE"> 
           <sequenceExists schemaName="public" sequenceName="contactid_seq" />
         </preConditions>
         <comment>Dropping Sequence</comment>
-<<<<<<< HEAD
         <dropSequence schemaName="public" sequenceName="contactid_seq" />
-=======
-        <dropSequence   schemaName="public" sequenceName="contactid_seq" />
->>>>>>> master
    </changeSet>     
 
    
    
    <changeSet id="2-Create Sequence" author="liquibase" runAlways="true">
        <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="MARK_RAN"> 
-<<<<<<< HEAD
           <not>
             <sequenceExists schemaName="public" sequenceName="contactid_seq" />
           </not>
-=======
-          <not><sequenceExists schemaName="public" sequenceName="contactid_seq" /></not>
->>>>>>> master
         </preConditions>
        <comment>Creating Sequence...</comment>
        <createSequence sequenceName="contactid_seq"
@@ -84,11 +72,7 @@
    </changeSet>
    
    
-<<<<<<< HEAD
    <changeSet id="5-Add Constraint" author="liquibase"  runAlways="true">
-=======
-   <changeSet id="5-Add Constraint" author="liquibase">
->>>>>>> master
          <comment>Adding contactid_seq sequence to Contact table...</comment> 
          <addDefaultValue catalogName="pg_catalog"
             columnDataType="int"
@@ -97,10 +81,7 @@
             schemaName="public"
             defaultValueSequenceNext="contactid_seq" />
    </changeSet>
-<<<<<<< HEAD
    
 
-=======
->>>>>>> master
  
 </databaseChangeLog>
