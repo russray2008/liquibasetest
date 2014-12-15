@@ -13,22 +13,32 @@
  
  
    <changeSet id="1-Drop Sequence" author="liquibase" dbms="postgresql" runAlways="true">
-        <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="CONTINUE"> 
-          <sequenceExists schemaName="public" sequenceName="contactid_seq" />
+        <preConditions onFailMessage="Failed in Pre-Condition for sequence does not exist" 
+                       onErrorMessage="Error in Pre-Conditions for sequence non-presence" 
+                       onFail="WARN" 
+                       onError="HALT"> 
+          <and>
+            <runningAs username="liquibase"/>
+            <sequenceExists schemaName="public" sequenceName="contactid_seq" />
+          </and>
         </preConditions>
-        <comment>Dropping Sequence</comment>
+        <comment>Sequence present. Dropping Sequence</comment>
         <dropSequence schemaName="public" sequenceName="contactid_seq" />
    </changeSet>     
 
    
    
    <changeSet id="2-Create Sequence" author="liquibase" runAlways="true">
-       <preConditions onErrorMessage="Failed Pre Conditions for sequence" onFail="MARK_RAN"> 
-          <not>
-            <sequenceExists schemaName="public" sequenceName="contactid_seq" />
-          </not>
+       <preConditions onFailMessage="Failed in Pre-Condition for squence.  Sequence does exist" 
+                      onErrorMessage="Error in Pre-Conditions for sequence presence" 
+                      onFail="MARK_RAN" 
+                      onError="HALT"> 
+          <and>
+            <runningAs username="liquibase"/> 
+            <not><sequenceExists schemaName="public" sequenceName="contactid_seq" /></not>
+          </and>
         </preConditions>
-       <comment>Creating Sequence...</comment>
+       <comment>Sequence not present. Creating Sequence...</comment>
        <createSequence sequenceName="contactid_seq"
                         incrementBy="1"
                         minValue="1"
